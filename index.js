@@ -39,14 +39,14 @@ app.get("/api/song", async (req, res) => {
     try {
         const singers = await Song.find({});
 
-        // Chuyển _id thành chuỗi để dễ sử dụng trong frontend
-        const result = singers.map(singer => ({
-            _id: singer._id.toString(),
-            fullName: singer.fullName || 'Không có tên',
-            avatar: singer.avatar || 'https://default-avatar.jpg',
-            status: singer.status,
-            slug: singer.slug,
-        }));
+        // // Chuyển _id thành chuỗi để dễ sử dụng trong frontend
+        // const result = singers.map(singer => ({
+        //     _id: singer._id.toString(),
+        //     fullName: singer.fullName || 'Không có tên',
+        //     avatar: singer.avatar || 'https://default-avatar.jpg',
+        //     status: singer.status,
+        //     slug: singer.slug,
+        // }));
 
         res.json(result);
     } catch (error) {
