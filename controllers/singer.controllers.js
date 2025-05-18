@@ -3,7 +3,7 @@ module.exports.getListSinger = async (req, res) => {
     const singer = await Singer.find({
         deleted: false,
     })
-    console.log(singer);
+    // console.log(singer);
     res.json({
         singer: singer,
     })

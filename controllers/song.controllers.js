@@ -1,10 +1,120 @@
 const Song = require("../models/song.model");
-module.exports.getListSinger = async (req, res) => {
+const Singer = require("../models/singer.model");
+const Topic = require("../models/topic.model");
+const FavoriteSong = require("../models/favorite-song.model");
+const createTreeHelper = require("../helper/createTree");
+
+module.exports.getListSong = async (req, res) => {
     const song = await Song.find({
         deleted: false,
     })
-    console.log(song);
+    const singer = await Singer.findOne({
+        // _id: song.singerId,
+        deleted: false,
+        // });
+    }).select("fullName");
+    console.log(singer);
     res.json({
         song: song,
+        singer: singer
     })
 }
+
+//[GET] /songs/detail/:slugSong
+module.exports.getDetailSong = async (req, res) => {
+    const slugSong = req.params.slugSong;
+
+    const song = await Song.findOne({
+        slug: slugSong,
+        status: "active",
+        deleted: false,
+    });
+
+    const singer = await Singer.findOne({
+        _id: song.singerId,
+        deleted: false,
+    }).select("fullName");
+
+    const topic = await Topic.findOne({
+        _id: song.topicId,
+        deleted: false,
+    }).select("title");
+
+    const favoriteSong = await FavoriteSong.findOne({
+        songId: song.id,
+    });
+
+    song["isFavoriteSong"] = favoriteSong ? true : false;
+    res.json({
+        song: song,
+        singer: singer,
+        topic: topic
+    });
+}
+
+//[GET] /songs/detail/:slugSong
+module.exports.getDetail = async (req, res) => {
+
+    const song = await Song.findById(req.params.id);
+
+    if (!song) return res.status(404).json({ message: "Không tìm thấy bài hát" });
+    res.json(song);
+}
+
+module.exports.editSong = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await Song.findOne({
+            _id: id,
+            deleted: false
+        });
+        const records = await Song.find({
+            deleted: false,
+        })
+        const newRecords = createTreeHelper.tree(records);
+        res.json({
+            data: data,
+            records: newRecords
+        })
+    } catch (error) {
+        console.error("Lỗi sửa bài hát:", error);
+        return res.status(500).json({ message: "Lỗi server khi sửa bài hát." });
+    }
+}
+
+module.exports.editPatchSong = async (req, res) => {
+    try {
+        const id = req.params.id;
+        req.body.position = parseInt(req.body.position);
+        const songEdit = await Song.updateOne({ _id: id }, req.body);
+        res.json({
+            songEdit: songEdit
+        })
+        console.log("Dữ liệu nhận được:", req.body);
+
+    } catch (error) {
+        console.error("Lỗi sửa bài hát Error:", error);
+        return res.status(500).json({ message: "Lỗi server errort." });
+    }
+}
+module.exports.deleteSong = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updated = await Song.updateOne(
+            { _id: id },
+            {
+                $set: {
+                    deleted: true,
+                    deletedAt: new Date(),
+                }
+            }
+        );
+        if (updated.modifiedCount === 0) {
+            return res.status(404).json({ message: "Không tìm thấy bài hát để xoá." });
+        }
+        return res.json({ message: "Xoá bài hát thành công." });
+    } catch (error) {
+        console.error("Lỗi xoá bài hát:", error);
+        return res.status(500).json({ message: "Lỗi server khi xoá bài hát." });
+    }
+};
