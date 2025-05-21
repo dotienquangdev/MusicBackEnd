@@ -60,6 +60,15 @@ module.exports.getDetail = async (req, res) => {
     if (!song) return res.status(404).json({ message: "Không tìm thấy bài hát" });
     res.json(song);
 }
+
+module.exports.createSong = async (req, res) => {
+
+    const song = await Song.findById(req.params.id);
+
+    if (!song) return res.status(404).json({ message: "Không tìm thấy bài hát" });
+    res.json(song);
+}
+
 module.exports.createPost = async (req, res) => {
     try {
         req.body.like = parseInt(req.body.like);
