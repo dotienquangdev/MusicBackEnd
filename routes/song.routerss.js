@@ -18,19 +18,21 @@ router.get("/:id", controller.getDetail);
 // );
 
 router.get("/create", controller.createSong)
+router.get("/edit/:id", controller.editSong);
+
+
 router.post(
     "/create",
-    upload.fields([
-        { name: "avatar", maxCount: 1 },
-        { name: "audio", maxCount: 1 }
-    ]),
-    uploadCloud.upload, // middleware upload lên Cloudinary
+    // upload.fields([
+    //     { name: "avatar", maxCount: 1 },
+    //     { name: "audio", maxCount: 1 }
+    // ]),
+    // uploadCloud.upload, 
     validate.createPost,
-    controller.createPost
+    controller.createPostSong
 );
 
 
-router.get("/edit/:id", controller.editSong);
 router.patch(
     "/edit/:id",
     upload.single("avatar"),

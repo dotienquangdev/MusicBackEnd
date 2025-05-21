@@ -67,11 +67,11 @@ module.exports.createSong = async (req, res) => {
         deleted: false,
     })
 
-    if (!song) return res.status(404).json({ message: "Không tìm thấy bài hát" });
+    if (!song) return res.status(404).json({ message: "Không tìm thấy danh sách bài hát" });
     res.json(song);
 }
 
-module.exports.createPost = async (req, res) => {
+module.exports.createPostSong = async (req, res) => {
     try {
         req.body.like = parseInt(req.body.like);
 
