@@ -1,19 +1,20 @@
-const express = require("express")
-const http = require('http')
-require("dotenv").config()
+const express = require("express");
+const http = require('http');
+require("dotenv").config();
 const cors = require('cors');
-const database = require("./config/database")
+const database = require("./config/database");
 const systemRoute = require("./routes/index.routess");
 const helperAPI = require("./helper/index");
 const session = require('express-session');
 const flash = require('connect-flash');
 
 const app = express();
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ✅ Chỉ cần cấu hình CORS một lần đúng
 const allowedOrigins = [
     'http://localhost:3002',
     'https://music-font-end.vercel.app'
@@ -26,11 +27,13 @@ app.use(cors({
         } else {
             callback(new Error('Not allowed by CORS'));
         }
-    }
+    },
+    credentials: true
 }));
 
+// Session và flash
 app.use(session({
-    secret: 'yourSecretKey', // đổi thành key bảo mật của bạn
+    secret: 'yourSecretKey',
     resave: false,
     saveUninitialized: true,
 }));
@@ -40,28 +43,22 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 });
-// Kết nối đến cơ sở dữ liệu
+
+// Kết nối DB
 database.connect();
 
-// Cấu hình CORS
-app.use(cors({
-    origin: 'http://localhost:3002',  // URL frontend của bạn
-    credentials: true                 // Cho phép chia sẻ thông tin xác thực (cookies)
-}));
-
-// Các route của hệ thống
+// Các route
 systemRoute(app);
 
-// Cấu hình view engine (nếu cần thiết)
+// View engine (nếu dùng)
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-// Khởi tạo các helper API
+// Khởi tạo helper
 helperAPI(app);
 
-const port = process.env.PORT || 9000;  // Đảm bảo rằng port được thiết lập đúng
-
-// Lắng nghe trên port
+// Khởi động server
+const port = process.env.PORT || 9000;
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
