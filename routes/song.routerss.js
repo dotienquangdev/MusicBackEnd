@@ -16,7 +16,8 @@ router.get("/:id", controller.getDetail);
 //     validate.createPost,
 //     controller.createPost
 // );
-router.post("/create", controller.createSong)
+
+router.get("/create", controller.createSong)
 router.post(
     "/create",
     upload.fields([
