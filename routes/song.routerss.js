@@ -10,6 +10,24 @@ router.get("/", controller.getListSong);
 router.get("/detail/:slugSong", controller.getDetailSong);
 router.get("/:id", controller.getDetail);
 
+// router.post("create",
+//     upload.single("avatar"),
+//     uploadCloud.upload,
+//     validate.createPost,
+//     controller.createPost
+// );
+
+router.post(
+    "/create",
+    upload.fields([
+        { name: "avatar", maxCount: 1 },
+        { name: "audio", maxCount: 1 }
+    ]),
+    uploadCloud.upload, // middleware upload lên Cloudinary
+    validate.createPost,
+    controller.createPost
+);
+
 
 router.get("/edit/:id", controller.editSong);
 router.patch(

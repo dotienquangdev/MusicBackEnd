@@ -60,6 +60,26 @@ module.exports.getDetail = async (req, res) => {
     if (!song) return res.status(404).json({ message: "Không tìm thấy bài hát" });
     res.json(song);
 }
+module.exports.createPost = async (req, res) => {
+    try {
+        req.body.like = parseInt(req.body.like);
+
+        // Lấy URL từ file upload
+        if (req.files.avatar) {
+            req.body.avatar = req.files.avatar[0].path; // hoặc .url nếu bạn dùng Cloudinary
+        }
+
+        if (req.files.audio) {
+            req.body.audio = req.files.audio[0].path; // hoặc .url nếu bạn dùng Cloudinary
+        }
+
+        const song = new Song(req.body);
+        await song.save();
+        res.json(song);
+    } catch (error) {
+        res.status(500).json({ error: "Đã xảy ra lỗi khi tạo bài hát." });
+    }
+}
 
 module.exports.editSong = async (req, res) => {
     try {
