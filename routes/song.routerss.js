@@ -17,8 +17,10 @@ router.get("/:id", controller.getDetail);
 //     controller.createPost
 // );
 
-router.get("/create", controller.createSong)
 router.get("/edit/:id", controller.editSong);
+
+
+router.get("/create", controller.createSong);
 
 
 router.post(

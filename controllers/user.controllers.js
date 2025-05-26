@@ -46,7 +46,6 @@ module.exports.login = async (req, res) => {
     });
 };
 
-// Cái này để làm méo gì
 module.exports.loginDeleted = async (req, res) => {
     const user = await User.find({
         deleted: true,
@@ -129,7 +128,6 @@ module.exports.registerPost = async (req, res) => {
         }
     });
 };
-
 // ??
 module.exports.register = async (req, res) => {
     const users = await User.find({

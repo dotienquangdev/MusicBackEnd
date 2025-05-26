@@ -14,7 +14,7 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Chỉ cần cấu hình CORS một lần đúng
+
 const allowedOrigins = [
     'http://localhost:3002',
     'https://music-font-end.vercel.app'
