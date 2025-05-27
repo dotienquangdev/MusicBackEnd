@@ -25,11 +25,11 @@ router.get("/create", controller.createSong);
 
 router.post(
     "/create",
-    // upload.fields([
-    //     { name: "avatar", maxCount: 1 },
-    //     { name: "audio", maxCount: 1 }
-    // ]),
-    // uploadCloud.upload, 
+    upload.fields([
+        { name: "avatar", maxCount: 1 },
+        { name: "audio", maxCount: 1 }
+    ]),
+    uploadCloud.upload,
     validate.createPost,
     controller.createPostSong
 );
