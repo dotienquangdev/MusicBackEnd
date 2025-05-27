@@ -2,20 +2,20 @@
 module.exports.registerPost = (req, res, next) => {
     if (!req.body.fullName) {
         req.flash("error", `Vui lòng nhập họ tên!`);
-        // res.redirect("back");
-        res.redirect("");
+        res.redirect("back");
+        // res.redirect("");
         return;
     }
     if (!req.body.email) {
         req.flash("error", `Vui lòng nhập email!`);
-        // res.redirect("back");
-        res.redirect("");
+        res.redirect("back");
+        // res.redirect("");
         return;
     }
     if (!req.body.password) {
         req.flash("error", `Vui lòng nhập password!`);
-        // res.redirect("back");
-        res.redirect("");
+        res.redirect("back");
+        // res.redirect("");
         return;
     }
     next();
@@ -24,14 +24,14 @@ module.exports.registerPost = (req, res, next) => {
 module.exports.loginPost = (req, res, next) => {
     if (!req.body.email) {
         req.flash("error", `Vui lòng nhập email!`);
-        // res.redirect("back");
-        res.redirect("");
+        res.redirect("back");
+        // res.redirect("");
         return;
     }
     if (!req.body.password) {
         req.flash("error", `Vui lòng nhập password!`);
-        // res.redirect("back");
-        res.redirect("");
+        res.redirect("back");
+        // res.redirect("");
         return;
     }
     next();
