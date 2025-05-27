@@ -99,10 +99,10 @@ module.exports.editSong = async (req, res) => {
             _id: id,
             deleted: false
         });
-        // const records = await Song.find({
-        //     deleted: false,
-        // })
-        const newRecords = createTreeHelper.tree(data);
+        const records = await Song.find({
+            deleted: false,
+        })
+        const newRecords = createTreeHelper.tree(records);
         res.json({
             data: data,
             records: newRecords
