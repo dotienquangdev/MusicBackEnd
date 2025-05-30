@@ -10,8 +10,9 @@ router.get("/", controller.getListSong);
 router.get("/detail/:slugSong", controller.getDetailSong);
 router.get("/:id", controller.getDetail);
 
-// router.post("create",
+// router.post("/create",
 //     upload.single("avatar"),
+
 //     uploadCloud.upload,
 //     validate.createPost,
 //     controller.createPost
@@ -33,7 +34,6 @@ router.post(
     validate.createPost,
     controller.createPostSong
 );
-
 
 router.patch(
     "/edit/:id",

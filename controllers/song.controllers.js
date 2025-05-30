@@ -71,26 +71,53 @@ module.exports.createSong = async (req, res) => {
     res.json(song);
 }
 
+// module.exports.createPostSong = async (req, res) => {
+//     try {
+//         req.body.like = parseInt(req.body.like);
+
+//         // Lấy URL từ file upload
+//         if (req.files.avatar) {
+//             req.body.avatar = req.files.avatar[0].path; // hoặc .url nếu bạn dùng Cloudinary
+//         }
+
+//         if (req.files.audio) {
+//             req.body.audio = req.files.audio[0].path; // hoặc .url nếu bạn dùng Cloudinary
+//         }
+
+//         const song = new Song(req.body);
+//         await song.save();
+//         res.json(song);
+//     } catch (error) {
+//         res.status(500).json({ error: "Đã xảy ra lỗi khi tạo bài hát." });
+//     }
+// }
+
 module.exports.createPostSong = async (req, res) => {
     try {
-        req.body.like = parseInt(req.body.like);
+        // console.log("Body:", req.body);
+        // console.log("Files:", req.files);
 
-        // Lấy URL từ file upload
-        if (req.files.avatar) {
-            req.body.avatar = req.files.avatar[0].path; // hoặc .url nếu bạn dùng Cloudinary
+        req.body.like = parseInt(req.body.like) || 0;
+
+        if (req.files?.avatar?.[0]) {
+            req.body.avatar = req.files.avatar[0].path;
         }
 
-        if (req.files.audio) {
-            req.body.audio = req.files.audio[0].path; // hoặc .url nếu bạn dùng Cloudinary
+        if (req.files?.audio?.[0]) {
+            req.body.audio = req.files.audio[0].path;
         }
 
         const song = new Song(req.body);
+        console.log(song);
         await song.save();
-        res.json(song);
+
+        res.status(201).json(song);
     } catch (error) {
-        res.status(500).json({ error: "Đã xảy ra lỗi khi tạo bài hát." });
+        console.error("Lỗi khi tạo bài hát:", error);
+        res.status(500).json({ error: error.message || "Đã xảy ra lỗi khi tạo bài hát." });
     }
 }
+
 
 module.exports.editSong = async (req, res) => {
     try {
