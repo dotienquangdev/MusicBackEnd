@@ -9,21 +9,8 @@ const uploadCloud = require("../middlewares/uploadCloud.middlewares");
 router.get("/", controller.getListSong);
 router.get("/detail/:slugSong", controller.getDetailSong);
 router.get("/:id", controller.getDetail);
-
-// router.post("/create",
-//     upload.single("avatar"),
-
-//     uploadCloud.upload,
-//     validate.createPost,
-//     controller.createPost
-// );
-
 router.get("/edit/:id", controller.editSong);
-
-
 router.get("/create", controller.createSong);
-
-
 router.post(
     "/create",
     upload.fields([
@@ -34,16 +21,13 @@ router.post(
     validate.createPost,
     controller.createPostSong
 );
-
 router.patch(
     "/edit/:id",
     upload.single("avatar"),
-    //  uploadCloud.upload.single("avatar"),
     uploadCloud.upload,
     validate.createPost,
     controller.editPatchSong
 );
-
 router.delete("/delete/:id", controller.deleteSong);
 
 module.exports = router;
